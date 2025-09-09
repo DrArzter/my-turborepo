@@ -28,7 +28,10 @@
   "name": "with-prisma",
   "dependencies": {
     "@dotenvx/dotenvx": "^1.49.0",
-    "@prisma/client": "latest"
+    "@prisma/client": "latest",
+    "@types/node": "^24.3.1",
+    "D": "^1.0.0",
+    "es6-promise": "^4.2.8"
   },
   "packageManager": "pnpm@10.15.1"
 }

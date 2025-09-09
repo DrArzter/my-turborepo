@@ -2,6 +2,10 @@
   "private": true,
   "name": "web",
   "version": "1.0.0",
+  "files": [
+    ".next",
+    "public"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
