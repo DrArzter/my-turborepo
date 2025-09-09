@@ -5979,7 +5979,6 @@ if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 // src/seed.ts
 var DEFAULT_USERS = [
-  // Add your own user to pre-populate the database with
   {
     name: "Tim Apple",
     email: "tim@apple.com"
