@@ -21,10 +21,14 @@ module.exports = {
     },
   },
   ignorePatterns: [
-    // Ignore dotfiles
     ".*.js",
+    "**/*.config.js",
+    "**/*.config.ts",
     "node_modules/",
     "dist/",
+    ".next/",
+    "coverage/",
+    "**/generated/**"
   ],
   overrides: [
     {
