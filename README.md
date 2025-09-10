@@ -1,199 +1,120 @@
-# Turborepo + Prisma ORM starter
+# My turborepo - A Production-Ready Monorepo Starter
 
-This is a example designed to help you quickly set up a Turborepo monorepo with a Next.js app and Prisma ORM. This is a community-maintained example. If you experience a problem, please submit a pull request with a fix. GitHub Issues will be closed.
+This repository is a powerful starter kit designed to help you quickly set up a scalable, production-ready monorepo with modern technologies. It solves the initial boilerplate and configuration hell, allowing you to focus on building features.
 
-## What's inside?
+During my work on this project, I will probably add more notes and thoughts here: [NOTES.md](./NOTES.md).
 
-This turborepo includes the following packages/apps:
+## ✨ Features
 
-### Apps and packages
+- **Monorepo Powered by Turborepo:** Manage multiple applications and shared packages with ease.
+- **Full-Stack TypeScript:** End-to-end type safety across the entire stack.
+- **Modern Frontend:** A sleek **Next.js** application with **Tailwind CSS** and **shadcn/ui**.
+- **Centralized Database Layer:** A shared `database` package using **Prisma** for clean, type-safe database access.
+- **Containerized:** Fully configured with **Docker** and `docker-compose.yml` for easy, reproducible local development and production deployment.
 
-- `web`: a [Next.js](https://nextjs.org/) app
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/database`: [Prisma ORM](https://prisma.io/) to manage & access your database
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## 📦 What's Inside?
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+This turborepo includes the following packages and apps:
 
-### Utilities
+- `apps/web`: a **Next.js** frontend application.
+- `packages/database`: a shared **Prisma** package for database schemas and client.
+- `nginx`: a pre-configured **Nginx** reverse proxy to act as an API Gateway.
+- `packages/eslint-config`: shared ESLint configurations.
+- `packages/typescript-config`: shared `tsconfig.json`s.
 
-This turborepo has some additional tools already setup for you:
+## 🚀 Getting Started
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-- [Prisma ORM](https://prisma.io/) for accessing the database
-- [Docker Compose](https://docs.docker.com/compose/) for a local MySQL database
-
-## Getting started
-
-Follow these steps to set up and run your Turborepo project with Prisma ORM:
-
-### 1. Create a Turborepo project
-
-Start by creating a new Turborepo project using the following command:
-
-```sh
-npx create-turbo@latest -e with-prisma
-```
-
-Choose your desired package manager when prompted and a name for the app (e.g., `my-turborepo`). This will scaffold a new Turborepo project with Prisma ORM included and dependencies installed.
-
-Navigate to your project directory:
+**1. Clone the repository:**
 
 ```bash
-cd ./my-turborepo
+git clone https://github.com/DrArzter/my-turborepo
+cd my-turborepo
 ```
 
-### 2. Setup a local database with Docker Compose
+**2. Install dependencies:**
+This project uses `pnpm` as a package manager.
 
-We use [Prisma ORM](https://prisma.io/) to manage and access our database. As such you will need a database for this project, either locally or hosted in the cloud.
+```bash
+pnpm install
+```
 
-To make this process easier, a [`docker-compose.yml` file](./docker-compose.yml) is included to setup a MySQL server locally with a new database named `turborepo`:
+**3. Set up the database:**
+The project is configured to work with PostgreSQL via Docker.
 
-Start the MySQL database using Docker Compose:
-
-```sh
+```bash
 docker-compose up -d
 ```
 
-To change the default database name, update the `MYSQL_DATABASE` environment variable in the [`docker-compose.yml` file](/docker-compose.yml).
+This will start the PostgreSQL database in the background.
 
-### 3. Setup environment variables
+**4. Apply database migrations:**
+Navigate to the database package and apply the schema to your newly created database.
 
-Once the database is ready, copy the `.env.example` file to the [`/packages/database`](./packages/database/) and [`/apps/web`](./apps/web/) directories as `.env`:
+````bash
+cd packages/database
+pnpm prisma migrate dev```
+
+**5. Start the development servers:**
+Go back to the root and run the development command.
+```bash
+cd ../..
+pnpm dev
+````
+
+This will start all applications in development mode simultaneously.
+
+## 🛠️ Extending the Project
+
+This starter is designed to be easily extensible.
+
+### Adding a New Service
+
+To add a new service (e.g., another Nest.js app), navigate to the `apps` directory and use the framework's CLI:
 
 ```bash
-cp .env.example ./packages/database/.env
-cp .env.example ./apps/web/.env
+cd apps
+nest new my-new-service
 ```
 
-This ensures Prisma has access to the `DATABASE_URL` environment variable, which is required to connect to your database.
+Remember to add a `"dev"` script to its `package.json` so Turborepo can run it.
 
-If you added a custom database name, or use a cloud based database, you will need to update the `DATABASE_URL` in your `.env` accordingly.
+### Adding a New Package
 
-### 4. Migrate your database
+To add a new shared internal package (e.g., a common `utils` library), follow the official [Turborepo documentation](https://turborepo.com/docs/crafting-your-repository/creating-an-internal-package).
 
-Once your database is running, you’ll need to create and apply migrations to set up the necessary tables. Run the database migration command:
+### Containerizing a New Service
 
-```bash
-# Using npm
-npm run db:migrate:dev
-```
+To containerize a new service:
 
-<details>
+1.  Create a `Dockerfile` for it. You can use the examples in the `dockerfiles` directory.
+2.  Add the new service to the main `docker-compose.yml` file, defining its build context and dependencies.
 
-<summary>Expand for <code>yarn</code>, <code>pnpm</code> or <code>bun</code></summary>
+## 🤝 Contributing
 
-```bash
-# Using yarn
-yarn run db:migrate:dev
+This project is a living document, and I believe in the power of collective knowledge. If you see a better way to do something, find a bug, or have an idea for an improvement, please feel free to:
 
-# Using pnpm
-pnpm run db:migrate:dev
+- Open an Issue to discuss it.
+- Submit a Pull Request with your changes.
+- Contact me directly on [Discord (`DrArzter`)](https://discord.com/users/DrArzter), [Telegram](https://t.me/DrArzter), or [email](mailto:chapegarostislav@gmail.com).
 
-# Using bun
-bun run db:migrate:dev
-```
+I would be happy to learn from you.
 
-</details>
+## 📜 License
 
-You’ll be prompted to name the migration. Once you provide a name, Prisma will create and apply the migration to your database.
+This project is licensed under the **MIT License**. See the [LICENSE.md](./LICENSE.md) file for details.
 
-> Note: The `db:migrate:dev` script (located in [packages/database/package.json](/packages/database/package.json)) uses [Prisma Migrate](https://www.prisma.io/migrate) under the hood.
+**TL;DR:** You can do whatever you want with this. I'd be grateful if you give me credit by linking back to this repository.
 
-For production environments, always push schema changes to your database using the [`prisma migrate deploy` command](https://www.prisma.io/docs/orm/prisma-client/deployment/deploy-database-changes-with-prisma-migrate). You can find an example `db:migrate:deploy` script in the [`package.json` file](/packages/database/package.json) of the `database` package.
+## 🏛️ Architecture Notes
 
-### 5. Seed your database
+This project is intentionally designed with a scalable, production-ready architecture in mind, even for this simple starter.
 
-To populate your database with initial or fake data, use [Prisma's seeding functionality](https://www.prisma.io/docs/guides/database/seed-database).
+**Nginx as a Reverse Proxy:**
+The entire application runs behind an **Nginx reverse proxy**. After running `docker-compose up -d`, the project will be available at `http://localhost:8080`.
 
-Update the seed script located at [`packages/database/src/seed.ts`](/packages/database/src/seed.ts) to include any additional data that you want to seed. Once edited, run the seed command:
+**Why?**
+This setup provides a single entry point and prepares the project for future expansion. If you want to add more backend microservices (e.g., in Nest.js or Go), you simply need to add them to the `docker-compose.yml` and update the `nginx.conf` file to route traffic accordingly.
 
-```bash
-# Using npm
-npm run db:seed
-```
+---
 
-<details>
-
-<summary>Expand for <code>yarn</code>, <code>pnpm</code> or <code>bun</code></summary>
-
-```bash
-# Using yarn
-yarn run db:seed
-
-# Using pnpm
-pnpm run db:seed
-
-# Using bun
-bun run db:seed
-```
-
-</details>
-
-### 6. Build your application
-
-To build all apps and packages in the monorepo, run:
-
-```bash
-# Using npm
-npm run build
-```
-
-<details>
-
-<summary>Expand for <code>yarn</code>, <code>pnpm</code> or <code>bun</code></summary>
-
-```bash
-# Using yarn
-yarn run build
-
-# Using pnpm
-pnpm run build
-
-# Using bun
-bun run build
-```
-
-</details>
-
-### 7. Start the application
-
-Finally, start your application with:
-
-```bash
-yarn run dev
-```
-
-<details>
-
-<summary>Expand for <code>yarn</code>, <code>pnpm</code> or <code>bun</code></summary>
-
-```bash
-# Using yarn
-yarn run dev
-
-# Using pnpm
-pnpm run dev
-
-# Using bun
-bun run dev
-```
-
-</details>
-
-Your app will be running at `http://localhost:3000`. Open it in your browser to see it in action!
-
-You can also read the official [detailed step-by-step guide from Prisma ORM](https://pris.ly/guide/turborepo?utm_campaign=turborepo-example) to build a project from scratch using Turborepo and Prisma ORM.
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+For now this project is maintaned by [me](https://github.com/DrArzter).
