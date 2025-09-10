@@ -85,6 +85,7 @@ To add a new shared internal package (e.g., a common `utils` library), follow th
 ### Containerizing a New Service
 
 To containerize a new service:
+<<<<<<< HEAD
 
 1.  Create a `Dockerfile` for it. You can use the examples in the `dockerfiles` directory.
 2.  Add the new service to the main `docker-compose.yml` file, defining its build context and dependencies.
@@ -117,4 +118,59 @@ This setup provides a single entry point and prepares the project for future exp
 
 ---
 
+=======
+
+1.  Create a `Dockerfile` for it. You can use the examples in the `dockerfiles` directory.
+2.  Add the new service to the main `docker-compose.yml` file, defining its build context and dependencies.
+
+## 🏗️ Project Structure
+
+```markdown
+my-turborepo/
+├── apps/                   # Applications
+│   └── web/                # Next.js frontend
+│
+├── packages/               # Shared internal packages
+│   ├── database/           # Prisma schemas + client
+│   ├── eslint-config/      # Shared ESLint config
+│   └── typescript-config/  # Shared TS configs
+│
+├── nginx/                  # Nginx reverse proxy
+│   └── nginx.conf
+│
+├── docker-compose.yml      # Orchestration for services
+├── package.json
+├── turbo.json              # Turborepo config
+└── README.md
+```
+
+## 🤝 Contributing
+
+This project is a living document, and I believe in the power of collective knowledge. If you see a better way to do something, find a bug, or have an idea for an improvement, please feel free to:
+
+- Open an Issue to discuss it.
+- Submit a Pull Request with your changes.
+- Contact me directly on [Discord (`DrArzter`)](https://discord.com/users/DrArzter), [Telegram](https://t.me/DrArzter), or [email](mailto:chapegarostislav@gmail.com).
+
+I would be happy to learn from you.
+
+## 📜 License
+
+This project is licensed under the **MIT License**. See the [LICENSE.md](./LICENSE.md) file for details.
+
+**TL;DR:** You can do whatever you want with this. I'd be grateful if you give me credit by linking back to this repository.
+
+## 🏛️ Architecture Notes
+
+This project is intentionally designed with a scalable, production-ready architecture in mind, even for this simple starter.
+
+**Nginx as a Reverse Proxy:**
+The entire application runs behind an **Nginx reverse proxy**. After running `docker-compose up -d`, the project will be available at `http://localhost:8080`.
+
+**Why?**
+This setup provides a single entry point and prepares the project for future expansion. If you want to add more backend microservices (e.g., in Nest.js or Go), you simply need to add them to the `docker-compose.yml` and update the `nginx.conf` file to route traffic accordingly.
+
+---
+
+>>>>>>> f1e34c0 (Update readme for the new version)
 For now this project is maintaned by [me](https://github.com/DrArzter).
