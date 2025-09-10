@@ -1,0 +1,34 @@
+# An example dockerfile for your nestjs applications
+FROM node:18 AS builder
+
+WORKDIR /app
+
+RUN npm install -g pnpm
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/{app-name}/package.json ./apps/{app-name}/
+
+# Install packages, and any other apps dependencies
+# do the same thing for them
+COPY packages/database/package.json ./packages/database/
+
+RUN pnpm install --frozen-lockfile
+
+COPY . .
+
+RUN pnpm --filter {app-name} build
+
+RUN pnpm --filter {app-name} deploy --legacy --prod /prod/{app-name}
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nodejs
+USER nodejs
+
+COPY --from=builder --chown=nodejs:nodejs /prod/{app-name} .
+
+# Запускаем приложение
+CMD ["node", "dist/main.js"]

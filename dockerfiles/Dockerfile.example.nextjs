@@ -1,3 +1,5 @@
+# An example dockerfile for your nextjs applications
+
 FROM node:18 AS builder
 
 WORKDIR /app
@@ -5,19 +7,20 @@ WORKDIR /app
 RUN npm install -g pnpm
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY apps/web/package.json ./apps/web/
+COPY apps/{app-name}/package.json ./apps/{app-name}/
 
-COPY apps/auth-service/package.json ./apps/auth-service/
-COPY apps/todos-service/package.json ./apps/todos-service/
+# Install packages, and any other apps dependencies
+# do the same thing for them
 COPY packages/database/package.json ./packages/database/
 
 RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN pnpm --filter web build
+RUN pnpm --filter {app-name} build
 
-RUN pnpm --filter web deploy --legacy --prod /prod/web
+RUN pnpm --filter {app-name} deploy --legacy --prod /prod/{app-name}
+
 
 FROM node:18-alpine
 
@@ -27,6 +30,6 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
 USER nodejs
 
-COPY --from=builder --chown=nodejs:nodejs /prod/web .
+COPY --from=builder --chown=nodejs:nodejs /prod/{app-name} .
 
 CMD ["node_modules/.bin/next", "start"]
