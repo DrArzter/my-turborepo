@@ -30,5 +30,4 @@ USER nodejs
 
 COPY --from=builder --chown=nodejs:nodejs /prod/{app-name} .
 
-# Запускаем приложение
 CMD ["node", "dist/main.js"]

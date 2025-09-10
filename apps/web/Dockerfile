@@ -7,8 +7,6 @@ RUN npm install -g pnpm
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/web/package.json ./apps/web/
 
-COPY apps/auth-service/package.json ./apps/auth-service/
-COPY apps/todos-service/package.json ./apps/todos-service/
 COPY packages/database/package.json ./packages/database/
 
 RUN pnpm install --frozen-lockfile
