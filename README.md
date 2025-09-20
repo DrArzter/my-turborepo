@@ -172,5 +172,4 @@ This setup provides a single entry point and prepares the project for future exp
 
 ---
 
->>>>>>> f1e34c0 (Update readme for the new version)
 For now this project is maintaned by [me](https://github.com/DrArzter).
