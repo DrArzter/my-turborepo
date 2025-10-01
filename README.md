@@ -89,6 +89,14 @@ To containerize a new service:
 
 1.  Create a `Dockerfile` for it. You can use the examples in the `dockerfiles` directory.
 2.  Add the new service to the main `docker-compose.yml` file, defining its build context and dependencies.
+3. Update the `nginx.conf` file to route traffic accordingly.
+**NOTE** When adding new NestJS service, update the package.json file and add the following lines: (I suppose there's a better way to do this, but this works for now)
+
+    ```json
+    "files": [
+      "dist"
+    ],
+    ```
 
 ## 🤝 Contributing
 
